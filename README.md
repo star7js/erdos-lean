@@ -36,3 +36,7 @@ Toolchain: Lean `v4.33.1`, Mathlib `v4.33.1` (pinned in `lake-manifest.json`).
 
 The proofs were written by Claude (Anthropic's AI model) in a session directed by the
 repository owner, and checked by the Lean kernel as described above.
+
+## License
+
+Apache License 2.0, see `LICENSE`.
