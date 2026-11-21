@@ -5,7 +5,8 @@
     "Erdos216.erdos_216",
     "Erdos216.erdos_216_of_seven_le",
     "Erdos216.cardSet_eq_empty",
-    "Erdos216.not_forall_cardSet_nonempty"
+    "Erdos216.not_forall_cardSet_nonempty",
+    "Erdos216.cardSetInterior_eq_empty"
   ],
   "definition_names": [],
   "permitted_axioms": [

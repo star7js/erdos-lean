@@ -25,10 +25,11 @@ Conventions.
 * The plane is `EuclideanSpace ℝ (Fin 2)`.
 * "No three on a line" is `NonTrilinear`: no three distinct points of the set are collinear.
 * "In convex position" is `ConvexIndep`: no point is in the convex hull of the others.
-* "Empty" means that no other point of the set lies in the *closed* convex hull of the `k`
-  points. For a set with no three points on a line this is the same as having no other point
-  in the interior, since a point of the set on the boundary of the polygon would be collinear
-  with two of its vertices.
+* "Empty" is stated in two ways. `HasEmptyKGon` says that no other point of the set lies in
+  the *closed* convex hull of the `k` points. `HasEmptyKGonInterior` is the textbook wording:
+  no point of the set lies in the *interior* of the convex hull. For a set with no three
+  points on a line the two agree, since a point of the set on the boundary of the polygon
+  would be collinear with two of its vertices. Horton's theorem is stated for both.
 -/
 
 namespace Erdos216
@@ -77,6 +78,24 @@ theorem cardSet_eq_empty (k : ℕ) (hk : 7 ≤ k) : cardSet k = ∅ := by
 /-- The answer to Erdős's question is no: it is not the case that `g(k)` exists for every
 `k`. -/
 theorem not_forall_cardSet_nonempty : ¬ ∀ k : ℕ, (cardSet k).Nonempty := by
+  sorry
+
+/-- `P` contains an empty convex `k`-gon, with "empty" in the textbook sense: `k` points of
+`P` in convex position whose convex hull has no point of `P` in its interior. -/
+def HasEmptyKGonInterior (k : ℕ) (P : Set ℝ²) : Prop :=
+  ∃ S : Finset ℝ², S.card = k ∧ ↑S ⊆ P ∧ ConvexIndep (S : Set ℝ²) ∧
+    ∀ p ∈ P, p ∉ interior (convexHull ℝ (S : Set ℝ²))
+
+/-- The set of `N` such that any `N` points in the plane, no three on a line, contain an
+empty convex `k`-gon, with "empty" in the interior sense. -/
+def cardSetInterior (k : ℕ) : Set ℕ :=
+  {N | ∀ pts : Finset ℝ², pts.card = N → NonTrilinear (pts : Set ℝ²) →
+    HasEmptyKGonInterior k (pts : Set ℝ²)}
+
+/-- `g(k)` does not exist for `k ≥ 7`, with "empty" in the interior sense. This is the form of
+Horton's theorem stated as `erdos_216.variants.horton` in pull request 6775 of
+google-deepmind/formal-conjectures. -/
+theorem cardSetInterior_eq_empty (k : ℕ) (hk : 7 ≤ k) : cardSetInterior k = ∅ := by
   sorry
 
 end Erdos216

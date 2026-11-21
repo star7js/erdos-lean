@@ -21,14 +21,20 @@ deliberate `sorry` per theorem. The proved theorems depend only on the axioms `p
 * `Erdos216.cardSet_eq_empty`: for `k ≥ 7` no `N` has the property that every `N` points in
   general position contain an empty convex `k`-gon.
 * `Erdos216.not_forall_cardSet_nonempty`: it is not the case that `g(k)` exists for every `k`.
+* `Erdos216.cardSetInterior_eq_empty`: the third statement again, with "empty" meaning "no
+  point of the set in the interior of the polygon". This has the same definitions and
+  conclusion as `erdos_216.variants.horton` in
+  [formal-conjectures pull request 6775](https://github.com/google-deepmind/formal-conjectures/pull/6775).
 
-`Solution.lean` proves the same four declarations from `Erdos/Erdos216.lean`. The point set
+`Solution.lean` proves the same five declarations from `Erdos/Erdos216.lean` and
+`Erdos/Erdos216Interior.lean`. The point set
 is `(i, Σ_j bit_j(i) / B^j)` for `i < n`, with `B = 2n + 3`; the header of
 `Erdos/Erdos216.lean` outlines the proof.
 
-"Empty" means that no other point of the set lies in the closed convex hull of the `k`
-points. For sets with no three collinear points this is the same as having no other point in
-the interior.
+In the first four statements "empty" means that no other point of the set lies in the closed
+convex hull of the `k` points; in the fifth it means no point of the set lies in the interior.
+`Erdos/Erdos216Interior.lean` proves that for sets with no three collinear points the interior
+form implies the closed form (`mem_interior_convexHull`, `HasEmptyKGon.of_interior`).
 
 ## Building and checking
 

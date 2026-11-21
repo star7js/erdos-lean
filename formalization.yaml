@@ -69,8 +69,11 @@ status:
     Formalized: for every n, an explicit set of n points with no three collinear
     and no empty convex 7-gon; the same conclusion for every k ≥ 7; and the two
     restatements that the set of admissible N is empty for k ≥ 7 and that g(k)
-    does not exist for every k. "Empty" is stated as: no other point of the set
-    lies in the closed convex hull of the k points. Not formalized: the known
+    does not exist for every k. "Empty" is stated both as "no other point of the
+    set lies in the closed convex hull of the k points" and, in the last
+    compared theorem, as "no point of the set lies in the interior of the
+    convex hull"; the development proves that the interior form implies the
+    closed form for sets with no three collinear points. Not formalized: the known
     values g(3) = 3, g(4) = 5, g(5) = 10, g(6) = 30, or any bound on the
     coordinates of Horton sets. The repository also contains an unrelated proof
     of Erdős Problem 466 (Erdos/Erdos466.lean), which is not part of this
@@ -105,9 +108,10 @@ automation:
 
 fidelity:
   divergences: >-
-    None known in the theorem. Two points of presentation: emptiness is stated
-    with the closed convex hull, which for sets with no three collinear points
-    is equivalent to the usual "no point in the interior"; and the Horton sets
+    None known in the theorem. Two points of presentation: four of the five
+    compared theorems state emptiness with the closed convex hull, and the
+    fifth (cardSetInterior_eq_empty) with the usual "no point in the
+    interior"; and the Horton sets
     are given by explicit real coordinates depending on n, not by Horton's
     recursive description.
 
@@ -119,8 +123,9 @@ review:
     The statement was written and checked for fidelity by the AI model that
     wrote the proof. No independent human mathematical review of the statement
     had been recorded at the time of this commit. A separate Lean file, not in
-    this repository, was compiled to confirm that these theorems imply the
-    statement of Problem 216 proposed for google-deepmind/formal-conjectures.
+    this repository, was compiled against google-deepmind/formal-conjectures to
+    confirm that these theorems imply the Horton statement of its pull request
+    6775, as transcribed from that pull request.
 
 alignment:
   namespace: "Erdos216"
@@ -133,3 +138,5 @@ alignment:
       lean: "Erdos216.cardSet_eq_empty"
     - source: "Erdős Problem 216: does g(k) exist? (answer: not for every k)"
       lean: "Erdos216.not_forall_cardSet_nonempty"
+    - source: "Horton 1983: g(k) does not exist for k ≥ 7, with emptiness as no point in the interior"
+      lean: "Erdos216.cardSetInterior_eq_empty"

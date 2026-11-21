@@ -1,15 +1,16 @@
 module
 
-public import Erdos.Erdos216
+public import Erdos.Erdos216Interior
 
 @[expose] public section
 
 /-!
 # Erdős Problem 216: proved statements
 
-The four theorems of `Challenge.lean`, with the same names and statements, proved from the
-development in `Erdos/Erdos216.lean`. The definitions `NonTrilinear`, `ConvexIndep`,
-`HasEmptyKGon` and `cardSet` are those of `Erdos/Erdos216.lean`, which are the same as in
+The five theorems of `Challenge.lean`, with the same names and statements, proved from the
+development in `Erdos/Erdos216.lean` and `Erdos/Erdos216Interior.lean`. The definitions `NonTrilinear`, `ConvexIndep`,
+`HasEmptyKGon`, `cardSet`, `HasEmptyKGonInterior` and `cardSetInterior` are those of the
+development, which are the same as in
 `Challenge.lean`.
 -/
 
@@ -32,5 +33,8 @@ theorem cardSet_eq_empty (k : ℕ) (hk : 7 ≤ k) : cardSet k = ∅ :=
 
 theorem not_forall_cardSet_nonempty : ¬ ∀ k : ℕ, (cardSet k).Nonempty :=
   horton_not_forall
+
+theorem cardSetInterior_eq_empty (k : ℕ) (hk : 7 ≤ k) : cardSetInterior k = ∅ :=
+  horton_cardSetInterior k hk
 
 end Erdos216
