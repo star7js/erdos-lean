@@ -11,11 +11,10 @@ project:
     not exist for any k ≥ 7. The point sets are explicit Horton sets, and the
     proof is the standard cup and cap argument.
   authors:
-    - name: "star7js"
-    - name: "Claude Fable 5.2 (Anthropic AI model)"
+    - name: "Joshua Simnitt"
   license: "Apache-2.0"
   responsible_maintainers:
-    - name: "star7js"
+    - name: "Joshua Simnitt"
 
 classification:
   arxiv: ["math.CO", "math.MG"]
