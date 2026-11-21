@@ -94,7 +94,7 @@ automation:
         human maintainer directed the session in natural language and did not
         write Lean code.
       cost:
-        wall_time: "about three hours on 2026-11-21, including the port to Lean 4.36.0"
+        wall_time: "about four hours on 2026-11-21, including the port to Lean 4.36.0 and the interior-form lemma"
         spend_usd: "not tracked"
         hardware: "cloud sandbox, 2 CPU cores"
       prompting_notes: >-
