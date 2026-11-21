@@ -9,7 +9,9 @@ project:
     7-gon. Consequently the number g(k) of Erdős Problem 216 (the least N such
     that every N points in general position contain an empty convex k-gon) does
     not exist for any k ≥ 7. The point sets are explicit Horton sets, and the
-    proof is the standard cup and cap argument.
+    proof is the standard cup and cap argument. The statement and the Lean
+    proof were written by an AI model (Claude) under the author's direction,
+    and are offered for human audit.
   authors:
     - name: "Joshua Simnitt"
   license: "Apache-2.0"
@@ -117,14 +119,18 @@ fidelity:
 review:
   status: "self-assessed"
   reviewers:
-    - "none"
+    - "Joshua Simnitt"
   notes: >-
-    The statement was written and checked for fidelity by the AI model that
-    wrote the proof. No independent human mathematical review of the statement
-    had been recorded at the time of this commit. A separate Lean file, not in
-    this repository, was compiled against google-deepmind/formal-conjectures to
-    confirm that these theorems imply the Horton statement of its pull request
-    6775, as transcribed from that pull request.
+    No independent review by a mathematician. The author read the statement in
+    Challenge.lean, with each definition and theorem explained by the AI model
+    that wrote it, and did not review the proof. The Lean proof is
+    machine-checked and free of sorry, and Comparator certifies that the
+    development proves the statements in Challenge.lean from the three standard
+    axioms; neither is a check that the statement is the right formalization of
+    Horton's theorem. A separate Lean file, not in this repository, was compiled
+    against google-deepmind/formal-conjectures to confirm that these theorems
+    imply the Horton statement of its pull request 6775, as transcribed from
+    that pull request.
 
 alignment:
   namespace: "Erdos216"
