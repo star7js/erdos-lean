@@ -1,0 +1,17 @@
+{
+  "challenge_module": "Challenge",
+  "solution_module": "Solution",
+  "theorem_names": [
+    "Erdos216.erdos_216",
+    "Erdos216.erdos_216_of_seven_le",
+    "Erdos216.cardSet_eq_empty",
+    "Erdos216.not_forall_cardSet_nonempty"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

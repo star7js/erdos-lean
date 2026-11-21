@@ -32,7 +32,11 @@ unbounded, so we also have to show that a disc holds only boundedly many such po
 the points are pairwise at distance `≥ δ`, and the disc is covered by finitely many
 balls of radius `δ / 2`.
 -/
-import Mathlib
+module
+
+public import Mathlib
+
+@[expose] public section
 
 open Filter Metric
 

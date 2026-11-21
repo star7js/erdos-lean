@@ -1,0 +1,135 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+version: "v0.4"
+
+project:
+  name: "Horton's theorem: point sets with no empty convex 7-gon (Erdős Problem 216)"
+  description: >-
+    A Lean 4 formalization of Horton's 1983 theorem that for every n there is a
+    set of n points in the plane, no three on a line, containing no empty convex
+    7-gon. Consequently the number g(k) of Erdős Problem 216 (the least N such
+    that every N points in general position contain an empty convex k-gon) does
+    not exist for any k ≥ 7. The point sets are explicit Horton sets, and the
+    proof is the standard cup and cap argument.
+  authors:
+    - name: "star7js"
+    - name: "Claude Fable 5.2 (Anthropic AI model)"
+  license: "Apache-2.0"
+  responsible_maintainers:
+    - name: "star7js"
+
+classification:
+  arxiv: ["math.CO", "math.MG"]
+  msc2020: ["52C10", "52A10", "68V20"]
+
+sources:
+  - title: "Sets with no empty convex 7-gons"
+    authors:
+      - "J. D. Horton"
+    id: "doi:10.4153/CMB-1983-077-8"
+    type: "article"
+    location: "Canadian Mathematical Bulletin 26 (1983), no. 4, 482-484"
+    relationship: "independently-proves"
+    note: >-
+      The theorem formalized is Horton's. The Lean proof was not written by
+      following the paper line by line. It uses the now standard presentation of
+      Horton sets (split by parity of index, one half high above the other, no
+      open 4-cup or 4-cap, hence no 7-hole), with the explicit coordinates
+      (i, sum_j bit_j(i) / B^j), B = 2n + 3, chosen for this formalization.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: "Erdős Problem 216"
+    contributors:
+      - name: "Paul Erdős"
+        role: "problem-proposer"
+      - name: "Thomas Bloom"
+        role: "editor of erdosproblems.com"
+    id: "https://www.erdosproblems.com/216"
+    type: "web page"
+    relationship: "background"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "https://github.com/bsubercaseaux/EmptyHexagonLean"
+    relationship: "independent"
+    note: >-
+      Lean 4 verification that every 30 points in general position contain an
+      empty convex hexagon (Heule and Scheucher). It does not contain Horton's
+      construction. The definitions of convex position and of an empty convex
+      k-gon used here follow the shape of the definitions there. No code is
+      shared.
+  - id: "https://github.com/google-deepmind/formal-conjectures"
+    relationship: "other"
+    note: >-
+      The definitions ConvexIndep and NonTrilinear mirror those in that
+      repository, restated here over Mathlib alone. At the time of this commit
+      that repository has no statement of Problem 216.
+
+status:
+  scope: >-
+    Formalized: for every n, an explicit set of n points with no three collinear
+    and no empty convex 7-gon; the same conclusion for every k ≥ 7; and the two
+    restatements that the set of admissible N is empty for k ≥ 7 and that g(k)
+    does not exist for every k. "Empty" is stated as: no other point of the set
+    lies in the closed convex hull of the k points. Not formalized: the known
+    values g(3) = 3, g(4) = 5, g(5) = 10, g(6) = 30, or any bound on the
+    coordinates of Horton sets. The repository also contains an unrelated proof
+    of Erdős Problem 466 (Erdos/Erdos466.lean), which is not part of this
+    submission.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["claude-fable-5-2"]
+      framework: "Claude (Anthropic) agent session with a shell, Lean 4 and Mathlib"
+      tool_setup: >-
+        One AI agent session. The agent chose the problem from the
+        teorth/erdosproblems database, wrote the formal statement, designed the
+        proof, wrote all Lean code, and iterated against the Lean compiler. The
+        human maintainer directed the session in natural language and did not
+        write Lean code.
+      cost:
+        wall_time: "about three hours on 2026-11-21, including the port to Lean 4.36.0"
+        spend_usd: "not tracked"
+        hardware: "cloud sandbox, 2 CPU cores"
+      prompting_notes: >-
+        The request was to pick a solved Erdős problem without a Lean proof and
+        formalize it. No proof sketch was supplied by the human.
+  spend_usd: "not tracked"
+  notes: >-
+    The statement, the proof strategy and the Lean code were all produced by the
+    AI model. The Lean kernel checks the proof. The human maintainer's role was
+    direction and the decision to publish.
+
+fidelity:
+  divergences: >-
+    None known in the theorem. Two points of presentation: emptiness is stated
+    with the closed convex hull, which for sets with no three collinear points
+    is equivalent to the usual "no point in the interior"; and the Horton sets
+    are given by explicit real coordinates depending on n, not by Horton's
+    recursive description.
+
+review:
+  status: "self-assessed"
+  reviewers:
+    - "none"
+  notes: >-
+    The statement was written and checked for fidelity by the AI model that
+    wrote the proof. No independent human mathematical review of the statement
+    had been recorded at the time of this commit. A separate Lean file, not in
+    this repository, was compiled to confirm that these theorems imply the
+    statement of Problem 216 proposed for google-deepmind/formal-conjectures.
+
+alignment:
+  namespace: "Erdos216"
+  statements:
+    - source: "Horton 1983, main theorem: arbitrarily large sets with no empty convex 7-gon"
+      lean: "Erdos216.erdos_216"
+    - source: "Horton 1983: g(k) does not exist for k ≥ 7"
+      lean: "Erdos216.erdos_216_of_seven_le"
+    - source: "Horton 1983: g(k) does not exist for k ≥ 7, in terms of the set of admissible N"
+      lean: "Erdos216.cardSet_eq_empty"
+    - source: "Erdős Problem 216: does g(k) exist? (answer: not for every k)"
+      lean: "Erdos216.not_forall_cardSet_nonempty"

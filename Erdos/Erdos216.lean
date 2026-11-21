@@ -9,8 +9,10 @@ plane, no three on a line, contains an empty convex `k`-gon.  Does `g(k)` exist?
 Horton (1983): no for `k ≥ 7`.  There are arbitrarily large point sets in general
 position with no empty convex 7-gon ("Horton sets").
 
-This file proves it: `erdos_216` (the case `k = 7`) and `erdos_216_of_seven_le` (all
-`k ≥ 7`).
+This file proves it: `exists_no_seven_hole` (the case `k = 7`),
+`exists_no_hole_of_seven_le` (all `k ≥ 7`) and
+`horton_cardSet` / `horton_not_forall` (the same in terms of `g(k)`).  `Solution.lean`
+re-exports these under the names used in `Challenge.lean`.
 
 ## Outline
 
@@ -23,11 +25,14 @@ This file proves it: `erdos_216` (the case `k = 7`) and `erdos_216_of_seven_le` 
   inside the hole.
 * `no_hole`: induction over the digit `j`.
 
-The definitions of `ConvexIndep`, `EmptyShapeIn`
-and `HasEmptyKGon` follow bsubercaseaux/EmptyHexagonLean and
+The definitions of `ConvexIndep` and `HasEmptyKGon` follow bsubercaseaux/EmptyHexagonLean and
 google-deepmind/formal-conjectures.
 -/
-import Mathlib
+module
+
+public import Mathlib
+
+@[expose] public section
 
 open EuclideanGeometry
 
@@ -43,13 +48,17 @@ def NonTrilinear (A : Set ℝ²) : Prop :=
 def ConvexIndep (S : Set ℝ²) : Prop :=
   ∀ a ∈ S, a ∉ convexHull ℝ (S \ {a})
 
-/-- No point of `P` outside `S` lies in the convex hull of `S`. -/
-def EmptyShapeIn (S P : Set ℝ²) : Prop :=
-  ∀ p ∈ P \ S, p ∉ convexHull ℝ S
-
-/-- `P` contains an empty convex `k`-gon (a "`k`-hole"). -/
+/-- `P` contains an empty convex `k`-gon (a "`k`-hole"): `k` points of `P` in convex position
+whose convex hull contains no other point of `P`. -/
 def HasEmptyKGon (k : ℕ) (P : Set ℝ²) : Prop :=
-  ∃ S : Finset ℝ², S.card = k ∧ ↑S ⊆ P ∧ ConvexIndep S ∧ EmptyShapeIn S P
+  ∃ S : Finset ℝ², S.card = k ∧ ↑S ⊆ P ∧ ConvexIndep S ∧
+    ∀ p ∈ P \ S, p ∉ convexHull ℝ (S : Set ℝ²)
+
+/-- The set of `N` such that any `N` points in the plane, no three on a line, contain an
+empty convex `k`-gon.  `g(k)` exists iff this set is nonempty. -/
+def cardSet (k : ℕ) : Set ℕ :=
+  {N | ∀ pts : Finset ℝ², pts.card = N → NonTrilinear (pts : Set ℝ²) →
+    HasEmptyKGon k (pts : Set ℝ²)}
 
 /-! ### The geometric input -/
 
@@ -627,7 +636,7 @@ theorem no_hole (N : ℕ) : ∀ (k j : ℕ), N ≤ j + k → ∀ (r : ℕ) (X : 
 /-- **Erdős Problem 216, negative answer for `k = 7` (Horton).**  For every `n` there are
 `n` points in the plane, no three on a line, with no empty convex 7-gon.  Hence `g(7)`
 does not exist. -/
-theorem erdos_216 :
+theorem exists_no_seven_hole :
     ∀ n : ℕ, ∃ P : Finset ℝ², P.card = n ∧ NonTrilinear (P : Set ℝ²) ∧
       ¬ HasEmptyKGon 7 (P : Set ℝ²) := by
   intro n
@@ -669,11 +678,11 @@ theorem erdos_216 :
 
 /-- **Erdős Problem 216 for all `k ≥ 7`.**  An empty convex `k`-gon contains an empty convex
 7-gon (take any 7 of its vertices), so `g(k)` does not exist for any `k ≥ 7`. -/
-theorem erdos_216_of_seven_le (k : ℕ) (hk : 7 ≤ k) :
+theorem exists_no_hole_of_seven_le (k : ℕ) (hk : 7 ≤ k) :
     ∀ n : ℕ, ∃ P : Finset ℝ², P.card = n ∧ NonTrilinear (P : Set ℝ²) ∧
       ¬ HasEmptyKGon k (P : Set ℝ²) := by
   intro n
-  obtain ⟨P, hn, hgp, hno⟩ := erdos_216 n
+  obtain ⟨P, hn, hgp, hno⟩ := exists_no_seven_hole n
   refine ⟨P, hn, hgp, ?_⟩
   rintro ⟨S, hcard, hSP, hconv, hempty⟩
   obtain ⟨T, hTS, hT7⟩ := Finset.exists_subset_card_eq (by omega : 7 ≤ S.card)
@@ -694,29 +703,22 @@ theorem erdos_216_of_seven_le (k : ℕ) (hk : 7 ≤ k) :
 convex `k`-gon; `g(k)` exists iff it is nonempty.  This is the form used for the statement of
 this problem proposed for google-deepmind/formal-conjectures. -/
 
-/-- The set of `N` such that any `N` points in the plane, no three on a line, contain an
-empty convex `k`-gon. -/
-def cardSet (k : ℕ) : Set ℕ :=
-  {N | ∀ pts : Finset ℝ², pts.card = N → NonTrilinear (pts : Set ℝ²) →
-    HasEmptyKGon k (pts : Set ℝ²)}
-
 /-- `g(k)` does not exist for `k ≥ 7`. -/
-theorem cardSet_eq_empty (k : ℕ) (hk : 7 ≤ k) : cardSet k = ∅ := by
+theorem horton_cardSet (k : ℕ) (hk : 7 ≤ k) : cardSet k = ∅ := by
   ext N
   simp only [Set.mem_empty_iff_false, iff_false]
   intro hN
-  obtain ⟨P, hc, hgp, hno⟩ := erdos_216_of_seven_le k hk N
+  obtain ⟨P, hc, hgp, hno⟩ := exists_no_hole_of_seven_le k hk N
   exact hno (hN P hc hgp)
 
 /-- It is not the case that `g(k)` exists for every `k`. -/
-theorem not_forall_cardSet_nonempty : ¬ ∀ k : ℕ, (cardSet k).Nonempty := by
+theorem horton_not_forall : ¬ ∀ k : ℕ, (cardSet k).Nonempty := by
   intro h
   obtain ⟨N, hN⟩ := h 7
-  rw [cardSet_eq_empty 7 le_rfl] at hN
+  rw [horton_cardSet 7 le_rfl] at hN
   exact hN
 
 end Erdos216
 
-#print axioms Erdos216.erdos_216
-#print axioms Erdos216.erdos_216_of_seven_le
-#print axioms Erdos216.not_forall_cardSet_nonempty
+#print axioms Erdos216.exists_no_hole_of_seven_le
+#print axioms Erdos216.horton_not_forall

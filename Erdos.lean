@@ -1,2 +1,4 @@
-import Erdos.Erdos466
-import Erdos.Erdos216
+module
+
+public import Erdos.Erdos466
+public import Erdos.Erdos216
