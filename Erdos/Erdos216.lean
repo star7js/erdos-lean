@@ -688,7 +688,35 @@ theorem erdos_216_of_seven_le (k : ℕ) (hk : 7 ≤ k) :
       exact hconv p hpS (convexHull_mono hsub h)
     · exact hempty p ⟨hpP, hpS⟩ (convexHull_mono hTS' h)
 
+/-! ### The statement in terms of `g(k)`
+
+`cardSet k` is the set of `N` such that every `N` points in general position contain an empty
+convex `k`-gon; `g(k)` exists iff it is nonempty.  This is the form used for the statement of
+this problem proposed for google-deepmind/formal-conjectures. -/
+
+/-- The set of `N` such that any `N` points in the plane, no three on a line, contain an
+empty convex `k`-gon. -/
+def cardSet (k : ℕ) : Set ℕ :=
+  {N | ∀ pts : Finset ℝ², pts.card = N → NonTrilinear (pts : Set ℝ²) →
+    HasEmptyKGon k (pts : Set ℝ²)}
+
+/-- `g(k)` does not exist for `k ≥ 7`. -/
+theorem cardSet_eq_empty (k : ℕ) (hk : 7 ≤ k) : cardSet k = ∅ := by
+  ext N
+  simp only [Set.mem_empty_iff_false, iff_false]
+  intro hN
+  obtain ⟨P, hc, hgp, hno⟩ := erdos_216_of_seven_le k hk N
+  exact hno (hN P hc hgp)
+
+/-- It is not the case that `g(k)` exists for every `k`. -/
+theorem not_forall_cardSet_nonempty : ¬ ∀ k : ℕ, (cardSet k).Nonempty := by
+  intro h
+  obtain ⟨N, hN⟩ := h 7
+  rw [cardSet_eq_empty 7 le_rfl] at hN
+  exact hN
+
 end Erdos216
 
 #print axioms Erdos216.erdos_216
 #print axioms Erdos216.erdos_216_of_seven_le
+#print axioms Erdos216.not_forall_cardSet_nonempty

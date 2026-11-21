@@ -4,7 +4,7 @@ Lean 4 / Mathlib proofs of two problems from [erdosproblems.com](https://www.erd
 
 | Problem | Result | File | Main theorems |
 |---|---|---|---|
-| [216](https://www.erdosproblems.com/216) | Horton (1983): for every `n` there are `n` points in the plane, no three collinear, with no empty convex 7-gon. So `g(k)` does not exist for `k ≥ 7`. | `Erdos/Erdos216.lean` | `Erdos216.erdos_216`, `Erdos216.erdos_216_of_seven_le` |
+| [216](https://www.erdosproblems.com/216) | Horton (1983): for every `n` there are `n` points in the plane, no three collinear, with no empty convex 7-gon. So `g(k)` does not exist for `k ≥ 7`. | `Erdos/Erdos216.lean` | `Erdos216.erdos_216`, `Erdos216.erdos_216_of_seven_le`, `Erdos216.cardSet_eq_empty`, `Erdos216.not_forall_cardSet_nonempty` |
 | [466](https://www.erdosproblems.com/466) | Graham: `N(X, 1/10) > (log X)/10`, hence `N(X, δ) → ∞` for `δ = 1/10`. | `Erdos/Erdos466.lean` | `Erdos466.erdos_466`, `Erdos466.erdos_466.variants.graham` |
 
 Both files are self-contained (`import Mathlib` only), contain no `sorry`, and depend only on
